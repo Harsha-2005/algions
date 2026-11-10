@@ -1,0 +1,23 @@
+# Raw/processed data — too large to version, download separately (see README)
+data/raw/*.csv
+data/processed/*.csv
+data/processed/*.parquet
+
+# Trained model artifacts — regenerate via training pipeline, or keep
+# the final one out-of-band and link it (see README "Model artifact")
+models/*.joblib
+models/*.pkl
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# Secrets
+.env
+
+# OS/editor cruft
+.DS_Store
+.ipynb_checkpoints/

@@ -1,0 +1,38 @@
+{
+  "module_presentation": "BBB/2014J",
+  "actual_final_result": "Fail",
+  "predicted_probability_at_risk": 0.0346,
+  "feature_comparison": {
+    "mean_score_so_far": {
+      "this_student": 100.0,
+      "typical_at_risk": 65.51,
+      "typical_not_at_risk": 75.36
+    },
+    "num_missed": {
+      "this_student": 0.0,
+      "typical_at_risk": 0.15,
+      "typical_not_at_risk": 0.02
+    },
+    "distinct_active_days": {
+      "this_student": 23.0,
+      "typical_at_risk": 11.28,
+      "typical_not_at_risk": 16.98
+    },
+    "date_registration": {
+      "this_student": -45.0,
+      "typical_at_risk": -63.85,
+      "typical_not_at_risk": -65.39
+    },
+    "engagement_trend": {
+      "this_student": -233.0,
+      "typical_at_risk": -62.42,
+      "typical_not_at_risk": -117.76
+    },
+    "clicks_first_7d": {
+      "this_student": 243.0,
+      "typical_at_risk": 96.68,
+      "typical_not_at_risk": 186.4
+    }
+  },
+  "limitation_note": "This student's engagement/submission pattern on the top-ranked features resembled the not-at-risk population by day 28, even though their ultimate outcome was at-risk. This is an inherent limitation of a day-28 cutoff: a student who disengages AFTER the cutoff is, by construction, invisible to a model that only sees pre-cutoff data. A later secondary check-in (e.g. day 56) would be needed to catch this pattern."
+}

@@ -1,0 +1,25 @@
+{
+  "student": "BBB/2014J",
+  "top_shap_features": [
+    {
+      "feature": "num__mean_score_so_far",
+      "shap_value": -1.8356
+    },
+    {
+      "feature": "cat__code_module_FFF",
+      "shap_value": -0.36
+    },
+    {
+      "feature": "num__num_missed",
+      "shap_value": -0.3355
+    },
+    {
+      "feature": "num__distinct_active_days",
+      "shap_value": -0.318
+    },
+    {
+      "feature": "num__studied_credits",
+      "shap_value": -0.1324
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+attribute,group,n_at_risk_students,recall_at_risk,false_negative_rate
+gender,F,1491,0.571,0.429
+gender,M,2268,0.671,0.329
+disability,N,3307,0.63,0.37
+disability,Y,452,0.642,0.358
+region,East Anglian Region,318,0.623,0.377
+region,East Midlands Region,242,0.603,0.397
+region,Ireland,163,0.613,0.387
+region,London Region,338,0.642,0.358
+region,North Region,193,0.591,0.409
+region,North Western Region,344,0.657,0.343
+region,Scotland,574,0.618,0.382
+region,South East Region,228,0.623,0.377
+region,South Region,304,0.678,0.322
+region,South West Region,267,0.663,0.337
+region,Wales,308,0.601,0.399
+region,West Midlands Region,278,0.637,0.363
+region,Yorkshire Region,202,0.644,0.356
+imd_band,0-10%,404,0.597,0.403
+imd_band,10-20,433,0.656,0.344
+imd_band,20-30%,447,0.62,0.38
+imd_band,30-40%,409,0.665,0.335
+imd_band,40-50%,379,0.609,0.391
+imd_band,50-60%,373,0.649,0.351
+imd_band,60-70%,333,0.637,0.363
+imd_band,70-80%,340,0.653,0.347
+imd_band,80-90%,288,0.642,0.358
+imd_band,90-100%,248,0.621,0.379
+imd_band,Unknown,105,0.505,0.495
+age_band,0-35,2666,0.657,0.343
+age_band,35-55,1062,0.571,0.429
+age_band,55<=,31,0.516,0.484

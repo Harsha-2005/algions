@@ -1,0 +1,4 @@
+model,precision_at_risk,recall_at_risk,f1_at_risk,precision_not_at_risk,recall_not_at_risk,f1_not_at_risk,confusion_matrix
+Baseline (majority class),0.0,0.0,0.0,0.5156,1.0,0.6804,"[[3358, 0], [3155, 0]]"
+Random Forest,0.6955,0.6811,0.6882,0.7061,0.7198,0.7129,"[[2417, 941], [1006, 2149]]"
+HistGradientBoosting,0.6879,0.6903,0.6891,0.7081,0.7058,0.7069,"[[2370, 988], [977, 2178]]"

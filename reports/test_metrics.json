@@ -1,0 +1,19 @@
+{
+  "precision_at_risk": 0.6097,
+  "recall_at_risk": 0.6313,
+  "f1_at_risk": 0.6203,
+  "precision_not_at_risk": 0.7397,
+  "recall_not_at_risk": 0.7216,
+  "f1_not_at_risk": 0.7305,
+  "confusion_matrix": [
+    [
+      3938,
+      1519
+    ],
+    [
+      1386,
+      2373
+    ]
+  ],
+  "n_test_students": 9216
+}
