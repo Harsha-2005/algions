@@ -21,12 +21,22 @@ engagement + assignment completion), on the OULAD dataset.
 
 ## 1. Environment setup
 
+**Tested and confirmed working on Python 3.12.** Python 3.14 is known to
+trigger a Windows Smart App Control block on scikit-learn's compiled
+extensions (`ImportError: DLL load failed ... Application Control policy
+has blocked this file`) — if you hit that, recreate your venv with 3.12.
+
 ```bash
-python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-cp .env.example .env             # fill in local values if needed
+python -m venv .venv              # Windows, to force a specific version: py -3.12 -m venv .venv
+source .venv/bin/activate         # Windows: .venv\Scripts\activate
+python -m pip install -r requirements.txt
+cp .env.example .env              # fill in local values if needed
 ```
+
+On Windows specifically, always invoke tools as `python -m <tool>`
+(`python -m pytest`, `python -m uvicorn`) rather than the bare command —
+bare commands can resolve to a different global Python install on PATH
+even with the venv active.
 
 ## 2. Data preparation
 
