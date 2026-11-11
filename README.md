@@ -46,7 +46,9 @@ Dataset)**, CC BY 4.0 licensed: https://archive.ics.uci.edu/dataset/349/open+uni
 1. Download the 7 CSVs (`courses.csv`, `studentInfo.csv`,
    `studentRegistration.csv`, `assessments.csv`, `studentAssessment.csv`,
    `vle.csv`, `studentVle.csv`).
-2. Place them in `data/raw/` (gitignored — not committed).
+2. Place them in `data/raw/` (gitignored — not committed; that folder
+   also has its own short `README.md` explaining this for anyone who
+   browses there directly instead of reading this file first).
 3. Validate the download:
 
    ```bash
