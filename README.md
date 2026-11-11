@@ -5,12 +5,15 @@ Decision-support classifier that flags students who may benefit from
 additional academic support, using only pre-outcome signals (attendance
 engagement + assignment completion), on the OULAD dataset.
 
-> **Status: Phase 0-10 complete.** Full pipeline built and tested —
+> **Status: Phase 0-11 complete.** Full pipeline built and tested —
 > ingestion, EDA/leakage check, point-in-time features (8 leakage
-> tests), chronological split, baseline + 2 candidate models, held-out
-> test evaluation, SHAP + fairness check, and a live FastAPI inference
-> app, all backed by 22 passing tests. **Technical report written** —
-> see `reports/technical_report.md`. Remaining: demo video, final
+> tests), chronological split, baseline + 2 candidate models (+3 more
+> explored for comparison), held-out test evaluation, SHAP + fairness
+> check, a live FastAPI inference app, and a Streamlit dashboard on
+> top of it — all backed by 25 passing tests. **Technical report
+> written**, including external validation against a published paper
+> using the identical day-28 OULAD setup — see
+> `reports/technical_report.md`. Remaining: demo video, final
 > reproducibility pass.
 >
 > **Model choice note**: `xgboost`/`lightgbm` were dropped in favor of
@@ -211,6 +214,31 @@ Interactive docs at `http://localhost:8000/docs`. Two endpoints:
 Risk bands (`src/config.py`): probability < 0.33 → Low, 0.33–0.66 →
 Moderate, ≥ 0.66 → High. A presentation choice, not a hard decision
 boundary — the raw probability is always included too.
+
+## 6c. Dashboard (Streamlit)
+
+A thin UI on top of the same API — no model-loading logic of its own,
+every prediction is a real HTTP call to `/predict`. Run both (two
+terminals):
+
+```bash
+python -m uvicorn api.main:app --port 8000
+python -m streamlit run dashboard/app.py
+```
+
+Opens at `http://localhost:8501`. Includes one-click buttons to load
+the three real test-set students discussed in the technical report
+(the false negative, an obvious at-risk case, and a thriving student)
+so a reviewer can reproduce those exact findings instantly, plus a
+manual-entry form for any other profile. Shows the risk band, the live
+SHAP explanation as a bar chart, and the human-review note returned by
+the API — nothing on the page is hard-coded.
+
+`tests/test_dashboard.py` uses Streamlit's own `AppTest` harness
+(headless, no browser) to confirm the dashboard loads, presets
+populate correctly, and a real prediction renders — these 3 tests
+require the API already running on `localhost:8000` and are skipped
+automatically otherwise.
 
 ## 6b. Technical report
 
