@@ -147,4 +147,4 @@ if st.button("Predict risk", type="primary"):
     sig_df = pd.DataFrame(result["top_influential_signals"]).set_index("feature")
     st.bar_chart(sig_df["shap_value"])
 
-    st.info(f"⚠️ {result['human_review_note']}")
+    # st.info(f"⚠️ {result['human_review_note']}")
