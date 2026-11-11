@@ -129,6 +129,107 @@ the fast, exact SHAP `TreeExplainer` used throughout Section 8 in favor of
 slower, approximate explanation methods. Given the explainability weighting
 in the evaluation rubric, this is a meaningful cost for no expected benefit.
 
+### Additional candidates explored (not selected)
+
+Beyond the two required candidates, Logistic Regression and SVM (both linear
+and RBF kernels) were also trained and evaluated on the identical
+train/validation split, to empirically justify why they weren't selected
+rather than asserting it:
+
+| Model | Precision (at-risk) | Recall (at-risk) | F1 (at-risk) | Fit time |
+|---|---|---|---|---|
+| Random Forest | 0.696 | 0.681 | 0.688 | fast |
+| **HistGradientBoosting (selected)** | 0.688 | **0.690** | 0.689 | fast |
+| Logistic Regression | **0.709** | 0.635 | 0.670 | 0.2s |
+| SVM (linear kernel) | **0.727** | 0.577 | 0.643 | 4.8s |
+| SVM (RBF kernel) | 0.704 | 0.631 | 0.666 | 5.4s |
+
+**Finding**: Logistic Regression and SVM are not worse models in an absolute
+sense — both achieve *higher precision* than the selected model (SVM linear
+reaches 0.727, the best of all five) but trade away recall to do so (down to
+0.577, the worst of all five). Since this project explicitly prioritizes
+recall (a missed at-risk student costs more than a false alarm), these
+models solve a differently-weighted version of the problem, not a better one.
+
+Three further practical reasons SVM specifically was not pursued further:
+
+- **Scaling cost**: SVM took ~25-27x longer to fit than the tree models on
+  just 11,809 rows; SVM training complexity grows roughly quadratically-to-
+  cubically with dataset size, while tree ensembles stay fast as more
+  presentations accumulate in a real deployment.
+- **Requires explicit feature scaling**: unlike the scale-invariant tree
+  models, SVM needed a `StandardScaler` added to the pipeline — added
+  complexity for a model type not expected to win.
+- **Explainability cost**: SHAP's fast, exact `TreeExplainer` (used
+  throughout Section 8) does not apply to SVM; explaining it would require
+  slower, approximate methods (Kernel SHAP), a real cost given the rubric's
+  explainability weighting.
+
+## 6a. External validation against published research
+
+To check whether this project's test-set numbers (Section 7) are reasonable
+for the task as framed — an early, day-28, leakage-controlled prediction —
+rather than simply low, published work on the same dataset and the same
+cutoff was reviewed.
+
+**Oğul, V. G. & Balcıoğlu, Y. S. (2026). "Early identification of at-risk
+students in online learning environments: A learning analytics approach
+using machine learning models." *OPUS – Journal of Society Research*, 23,
+e1948539.** (https://doi.org/10.26466/opusjsr.1948539) is an unusually
+direct point of comparison: it uses OULAD, the identical day-28 cutoff, the
+identical binary target (Fail + Withdrawn = at risk), and the identical
+already-withdrawn exclusion rule. Their day-28 cohort after exclusions
+(27,522 enrolments, 44.1% at-risk) and exclusion count (**5,055
+already-withdrawn enrolments removed**) match this project's own numbers
+almost exactly (27,538 students, 44.1% at-risk, 5,055 dropped) — strong
+independent confirmation that the feature-engineering and leakage rules in
+Section 4 are implemented correctly, not just internally consistent.
+
+Their held-out test-set comparison of **seven** classifiers, at the same
+cutoff:
+
+| Model | Accuracy | Precision | Recall | F1 | ROC-AUC |
+|---|---|---|---|---|---|
+| Gradient Boosting (their selection) | 0.724 | 0.728 | 0.597 | 0.656 | 0.790 |
+| Logistic Regression | 0.715 | 0.682 | 0.666 | 0.674 | 0.784 |
+| Random Forest | 0.721 | 0.737 | 0.571 | 0.644 | 0.783 |
+| SVM (RBF) | 0.716 | 0.703 | 0.617 | 0.657 | 0.782 |
+| k-NN | 0.709 | 0.750 | 0.511 | 0.608 | 0.772 |
+| Decision Tree | 0.701 | 0.705 | 0.552 | 0.620 | 0.748 |
+| Naive Bayes | 0.641 | 0.805 | 0.245 | 0.376 | 0.714 |
+
+This independently reproduces this project's own finding: the leading models
+(Gradient Boosting, Logistic Regression, Random Forest, SVM) cluster within
+a few points of each other, and simpler models trade recall for precision
+rather than being categorically worse — their own paper states the
+difference between the top three methods was "modest rather than
+categorical."
+
+Two further findings from this paper directly support this project's design:
+
+- **Why sub-70% is expected, not a flaw**: the authors report that before
+  applying leakage controls, a naive whole-dataset model reached ~94%
+  accuracy — which dropped to 72% once post-cutoff and unregistration-derived
+  information was correctly removed. They state this reduction "strengthens
+  credibility: performance now corresponds to information actually available
+  at the declared prediction point." This is direct, independent evidence
+  that inflated accuracy figures elsewhere in the OULAD literature are
+  frequently a symptom of leakage, not a benchmark this project should have
+  matched.
+- **Matching fairness finding**: their subgroup analysis found recall of
+  0.549 for women vs. 0.636 for men — an 8.7-point gap, closely matching this
+  project's own 10-point gender gap (Section 8), found completely
+  independently on a different train/test split.
+
+A second source, Wu, Duan & Luo (2026, *PLOS ONE*, "Calibrated early-warning
+models with fairness auditing and selective prediction for course withdrawal
+risk: Evidence from OULAD"), benchmarks the same model family (logistic
+regression, HGB, random forest, SVM, AdaBoost, k-NN, XGBoost, LightGBM,
+CatBoost) and concludes that precision-recall operating points "should be
+treated as policy choices rather than universal defaults" — directly
+supporting this project's own decision to prioritize recall deliberately
+(Section 7) rather than tuning for accuracy or precision.
+
 ## 7. Model comparison (validation set)
 
 Model selection happened entirely on the validation set (2014B); the test
