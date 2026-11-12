@@ -142,9 +142,11 @@ if st.button("Predict risk", type="primary"):
 
     st.markdown(f"## Risk band: :{band_color}[{band}]")
     st.progress(min(prob, 1.0), text=f"Probability at risk: {prob:.1%}")
+    # Shown immediately after the core result, before the chart below —
+    # this disclaimer should never depend on a secondary visualization
+    # rendering successfully first.
+    st.info(result["human_review_note"])
 
     st.subheader("Most influential signals (live SHAP explanation)")
     sig_df = pd.DataFrame(result["top_influential_signals"]).set_index("feature")
     st.bar_chart(sig_df["shap_value"])
-
-    # st.info(f"⚠️ {result['human_review_note']}")

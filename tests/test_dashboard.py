@@ -64,7 +64,10 @@ def test_predict_button_returns_real_prediction():
 
     assert not at.exception
     assert any("Low risk" in m.value for m in at.markdown)
-    assert any("human advisor" in i.value.lower() for i in at.info)
+    assert len(at.info) > 0, "No st.info element rendered at all"
+    assert any("human advisor" in i.value.lower() for i in at.info), (
+        f"human_review_note text not found; got: {[i.value for i in at.info]}"
+    )
 
 
 if __name__ == "__main__":
